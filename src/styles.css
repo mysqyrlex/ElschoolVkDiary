@@ -1,0 +1,210 @@
+:root {
+    --primary: #045772;
+}
+
+.p-0 {
+    padding: 0 !important;
+}
+.d-flex {
+    display: -ms-flexbox !important;
+    display: flex !important;
+}
+.flex-column {
+    -ms-flex-direction: column !important;
+    flex-direction: column !important;
+}
+.text-right {
+    text-align: right;
+}
+.flex-grow-1 {
+    -ms-flex-positive: 1 !important;
+    flex-grow: 1 !important;
+}
+.ml-auto {
+    margin-left: auto !important;
+}
+
+.Panel__in {
+    background-color: #fff !important;
+}
+
+.PanelHeader {
+    background-color: var(--primary);
+    color: #fff !important;
+}
+
+.PanelHeader-content,
+.PanelHeaderButton {
+    color: #fff !important;
+}
+
+.Panel__in-before {
+    height: 0 !important;
+}
+
+.Avatar__img {
+    border: 1px solid #aaa;
+}
+
+.diary {
+}
+
+.diary__header {
+    background-color: var(--primary);
+    color: #fff;
+    height: 48px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 10;
+    padding-top: 56px;
+}
+
+.diary__header-month {
+    padding: 15px 0 0 15px;
+}
+
+.diary__header-year {
+    padding: 17px 0 0 10px;
+    font-size: 12px;
+    color: #a5a5a5;
+}
+
+.diary__header-btn {
+    background-color: transparent;
+    padding: 5px 12px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.diary__datepicker {
+    height: 0;
+    transition: height 0.25s ease;
+    background-color: red;
+}
+
+.diary__datepicker_shown {
+    height: 60px;
+}
+.diary__week-wrapper {
+    background-color: var(--primary);
+    position: fixed;
+    top: 104px;
+    width: 100%;
+    z-index: 10;
+}
+.diary__week {
+    padding: 15px 0 10px;
+    border-bottom: 1px solid #a8a8a8;
+    background-color: #fff;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.diary__week-btn {
+    background-color: transparent;
+    overflow: hidden;
+    border-radius: 8px;
+    width: 32px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 !important;
+    color: var(--primary);
+}
+
+.diary-day-btn__weekday {
+    color: #787878;
+    font-size: 12px;
+}
+
+.diary-day-btn__date {
+    color: #000;
+    font-size: 12px;
+}
+.diary-day-btn_active {
+    background-color: var(--primary);
+}
+.diary-day-btn_active .diary-day-btn__weekday {
+    color: #a5a5a5;
+}
+
+.diary-day-btn_active .diary-day-btn__date {
+    color: #fff;
+}
+.diary__lessons-title {
+    font-size: 12px;
+    color: #787878;
+    display: inline-block;
+    position: relative;
+    margin-left: 90px;
+    padding: 12px 0;
+}
+.diary__lessons-title::before {
+    content: "";
+    width: 3px;
+    height: 30px;
+    position: absolute;
+    background-color: var(--primary);
+    display: inline-block;
+    left: -75px;
+}
+.lessons {
+    margin-top: 118px;
+}
+.lesson__timeline {
+    width: 3px;
+    background-color: var(--primary);
+    display: block;
+    margin-left: 15px;
+    position: relative;
+}
+.lesson__timeline::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: -7.5px;
+    width: 18px;
+    height: 18px;
+    background-color: #fff;
+    border-radius: 50%;
+    z-index: 1;
+}
+.lesson__timeline::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    top: 3.5px;
+    left: -4px;
+    background-color: #fff;
+    z-index: 2;
+}
+.lesson__times {
+    margin: 10px;
+    text-align: center;
+}
+.lesson__start {
+    font-size: 14px;
+    font-weight: 600;
+}
+.lesson__end {
+    font-size: 12px;
+    color: #787878;
+}
+.lesson__number {
+    font-size: 40px;
+    color: #787878;
+}
+
+.lesson__card {
+    background-color: #e9f0f5;
+    margin: 0 10px 10px 0;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+}
