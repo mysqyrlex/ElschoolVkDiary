@@ -1,7 +1,15 @@
 :root {
     --primary: #045772;
+    --datepicker-height: 130px;
 }
 
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
+/*            Привычные общие стили                                 */
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
 .p-0 {
     padding: 0 !important;
 }
@@ -9,9 +17,19 @@
     display: -ms-flexbox !important;
     display: flex !important;
 }
+.flex-wrap {
+    -ms-flex-wrap: wrap !important;
+    flex-wrap: wrap !important;
+}
 .flex-column {
     -ms-flex-direction: column !important;
     flex-direction: column !important;
+}
+.text-left {
+    text-align: left;
+}
+.text-center {
+    text-align: center;
 }
 .text-right {
     text-align: right;
@@ -23,7 +41,22 @@
 .ml-auto {
     margin-left: auto !important;
 }
+.mr-auto {
+    margin-right: auto !important;
+}
+.col-1-of-7 {
+    -ms-flex: 0 0 calc(100% / 7);
+    flex: 0 0 calc(100% / 7);
+    max-width: calc(100% / 7);
+}
 
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
+/*            Перевёрстка стилей от вк                              */
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
 .Panel__in {
     background-color: #fff !important;
 }
@@ -45,9 +78,17 @@
 .Avatar__img {
     border: 1px solid #aaa;
 }
-
-.diary {
+.Button[disabled] {
+    opacity: 1 !important;
 }
+
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
+/*            Diary                                                 */
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
 
 .diary__header {
     background-color: var(--primary);
@@ -78,30 +119,20 @@
     margin-right: 10px;
 }
 
-.diary__datepicker {
-    height: 0;
-    transition: height 0.25s ease;
-    background-color: red;
-}
-
-.diary__datepicker_shown {
-    height: 60px;
-}
 .diary__week-wrapper {
     background-color: var(--primary);
     position: fixed;
     top: 104px;
     width: 100%;
     z-index: 10;
+    border-bottom: 1px solid #a8a8a8;
 }
 .diary__week {
-    padding: 15px 0 10px;
-    border-bottom: 1px solid #a8a8a8;
+    padding: 15px calc(100% / 9) 10px;
     background-color: #fff;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
-
 .diary__week-btn {
     background-color: transparent;
     overflow: hidden;
@@ -112,12 +143,15 @@
     padding: 0 !important;
     color: var(--primary);
 }
-
+.diary__change-week-btn {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+}
 .diary-day-btn__weekday {
     color: #787878;
     font-size: 12px;
 }
-
 .diary-day-btn__date {
     color: #000;
     font-size: 12px;
@@ -128,9 +162,47 @@
 .diary-day-btn_active .diary-day-btn__weekday {
     color: #a5a5a5;
 }
-
 .diary-day-btn_active .diary-day-btn__date {
     color: #fff;
+}
+
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
+/*            Datepicker                                            */
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
+.diary__datepicker {
+    height: 0;
+    width: calc(100% * 7 / 9);
+    padding: 0 calc(100% / 9);
+    background-color: #fff;
+    z-index: 10;
+    overflow: hidden;
+    transition: height 0.25s ease;
+}
+.diary__datepicker_shown .diary__datepicker {
+    height: var(--datepicker-height);
+    font-size: 12px;
+}
+.diary__month-day {
+    padding: 5px 0;
+}
+
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
+/*            Блок Lessons                                          */
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
+.diary__lessons {
+    margin-top: 118px;
+    transition: margin 0.25s ease;
+}
+.diary__datepicker_shown + .diary__lessons {
+    margin-top: calc(118px + var(--datepicker-height));
 }
 .diary__lessons-title {
     font-size: 12px;
@@ -148,9 +220,6 @@
     background-color: var(--primary);
     display: inline-block;
     left: -75px;
-}
-.lessons {
-    margin-top: 118px;
 }
 .lesson__timeline {
     width: 3px;
@@ -185,22 +254,32 @@
     z-index: 2;
 }
 .lesson__times {
-    margin: 10px;
+    margin: 10px 0;
     text-align: center;
 }
 .lesson__start {
+    margin: 0 10px;
     font-size: 14px;
     font-weight: 600;
 }
 .lesson__end {
-    font-size: 12px;
+    margin: 0 10px;
     color: #787878;
+    font-size: 12px;
+    font-weight: 600;
 }
 .lesson__number {
     font-size: 40px;
     color: #787878;
 }
 
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
+/*            Карточки уроков                                       */
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
 .lesson__card {
     background-color: #e9f0f5;
     margin: 0 10px 10px 0;
