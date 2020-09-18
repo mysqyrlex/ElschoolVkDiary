@@ -1,6 +1,7 @@
 :root {
     --primary: #045772;
-    --datepicker-height: 130px;
+    --datepicker-height: 215px;
+    --anim-dura: .25s;
 }
 
 /*                                                                  */
@@ -119,53 +120,6 @@
     margin-right: 10px;
 }
 
-.diary__week-wrapper {
-    background-color: var(--primary);
-    position: fixed;
-    top: 104px;
-    width: 100%;
-    z-index: 10;
-    border-bottom: 1px solid #a8a8a8;
-}
-.diary__week {
-    padding: 15px calc(100% / 9) 10px;
-    background-color: #fff;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-}
-.diary__week-btn {
-    background-color: transparent;
-    overflow: hidden;
-    border-radius: 8px;
-    width: 32px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 0 !important;
-    color: var(--primary);
-}
-.diary__change-week-btn {
-    position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
-}
-.diary-day-btn__weekday {
-    color: #787878;
-    font-size: 12px;
-}
-.diary-day-btn__date {
-    color: #000;
-    font-size: 12px;
-}
-.diary-day-btn_active {
-    background-color: var(--primary);
-}
-.diary-day-btn_active .diary-day-btn__weekday {
-    color: #a5a5a5;
-}
-.diary-day-btn_active .diary-day-btn__date {
-    color: #fff;
-}
-
 /*                                                                  */
 /*                                                                  */
 /*                                                                  */
@@ -173,23 +127,139 @@
 /*                                                                  */
 /*                                                                  */
 /*                                                                  */
-.diary__datepicker {
-    height: 0;
-    width: calc(100% * 7 / 9);
-    padding: 0 calc(100% / 9);
-    background-color: #fff;
-    z-index: 10;
+
+.diary__month-wrapper {
+    position: fixed;
+    top: 104px;
+    background-color: var(--primary);
+    width: 100%;
     overflow: hidden;
-    transition: height 0.25s ease;
+    border-bottom: 1px solid #a8a8a8;
+    z-index: 10;
 }
-.diary__datepicker_shown .diary__datepicker {
+.diary__month {
+    background-color: #fff;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 15px calc(100% / 9) 10px;
     height: var(--datepicker-height);
-    font-size: 12px;
+    transition: height var(--anim-dura) ease;
 }
-.diary__month-day {
-    padding: 5px 0;
+.diary__month.diary__month_collapsed {
+    height: 40px;
 }
 
+.diary__change-week-btn {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    background-color: transparent;
+    padding: 5px 0;
+    text-align: center;
+    width: 32px;
+    color: var(--primary);
+}
+
+.diary__weekdays {
+    position: absolute;
+    top: 17px;
+    width: calc(100% * 7 / 9);
+    left: calc(100% / 9);
+    z-index: 11;
+}
+.diary__weekday {
+    font-size: 12px;
+    color: #787878;
+    z-index: 10;
+    transition: color var(--anim-dura) ease;
+}
+.diary__month.diary__month_collapsed .diary__weekday_active {
+    color: #cdcdcd;
+}
+.diary__month .diary__weekday_active::before {
+    content: "";
+    width: 100%;
+    height: 150px;
+    background-color: #fff;
+    position: absolute;
+    left: 0;
+    bottom: 20px;
+    opacity: 1;
+    transition: all var(--anim-dura) ease;
+}
+.diary__month .diary__weekday_active::after {
+    content: "";
+    width: 100%;
+    height: 150px;
+    background-color: #fff;
+    position: absolute;
+    left: 0;
+    top: 40px;
+    opacity: 1;
+    transition: all var(--anim-dura) ease;
+}
+.diary__month:not(.diary__month_collapsed) .diary__weekday_active::before,
+.diary__month:not(.diary__month_collapsed) .diary__weekday_active::after {
+    height: 0;
+    opacity: 0;
+    transition: all var(--anim-dura) ease;
+}
+.diary__month:not(.diary__month_collapsed) .diary__weekday_active::before {
+    bottom: 500px;
+}
+.diary__month:not(.diary__month_collapsed) .diary__weekday_active::after {
+    top: 500px;
+}
+
+.datepicker {
+    position: absolute;
+    top: 35px;
+    width: calc(100% * 7 / 9);
+    left: calc(100% / 9);
+    height: calc(var(--datepicker-height) - 15px);
+    transition: top var(--anim-dura) ease;
+}
+.diary__month.diary__month_collapsed .datepicker {
+    top: calc(19px - var(--chosen-week) * 33.25px);
+}
+.datepicker__day-wrapper {
+    height: 30px;
+}
+.datepicker__day {
+    font-size: 13px;
+    color: #000;
+    width: 32px;
+    max-width: 32px;
+    min-width: 32px;
+    margin: 9px auto;
+    padding: 4px 0;
+    border-radius: 8px;
+    position: relative;
+    z-index: 10;
+}
+.datepicker__day::before {
+    content: "";
+    background-color: transparent;
+    width: 100%;
+    height: calc(100% + 16px);
+    top: -15px;
+    left: 0;
+    border-radius: 8px;
+    position: absolute;
+    z-index: -1;
+    transition: height var(--anim-dura) ease, top var(--anim-dura) ease;
+}
+.datepicker__day_active {
+    color: #fff;
+}
+.datepicker__day_active::before {
+    background-color: var(--primary);
+}
+
+.diary__month:not(.diary__month_collapsed) .datepicker__day_active::before {
+    top: 0;
+    height: 100%;
+}
 /*                                                                  */
 /*                                                                  */
 /*                                                                  */
@@ -198,12 +268,13 @@
 /*                                                                  */
 /*                                                                  */
 .diary__lessons {
-    margin-top: 118px;
-    transition: margin 0.25s ease;
+    margin-top: 114px;
+    transition: margin-top var(--anim-dura) ease;
 }
-.diary__datepicker_shown + .diary__lessons {
-    margin-top: calc(118px + var(--datepicker-height));
+.diary__lessons_showndatepicker {
+    margin-top: calc(114px - 40px + var(--datepicker-height));
 }
+
 .diary__lessons-title {
     font-size: 12px;
     color: #787878;
@@ -286,4 +357,22 @@
     padding: 15px;
     border-radius: 10px;
     font-size: 14px;
+}
+
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
+/*            УДАЛИТЬ ПОТОМ !!!                                     */
+/*                                                                  */
+/*                                                                  */
+/*                                                                  */
+.xxx {
+    position: fixed;
+    height: 1px;
+    background-color: #f00;
+    width: 100vw;
+    left: 0;
+    top: 139px;
+    display: block;
+    z-index: 1000;
 }

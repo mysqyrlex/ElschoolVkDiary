@@ -13,9 +13,9 @@ class Home extends React.Component {
 
         this.state = {
             showndatepicker: false,
-            chosenDay: new Date("2020-07-29"),
-            week: this.getWeek(new Date("2020-07-29")),
-            month: this.getMonth(new Date("2020-07-29"))
+            chosenDay: new Date("2021-05-29"),
+            chosenWeek: 5,
+            month: this.getMonth(new Date("2021-05-29"))
         };
         this.getMonthString = this.getMonthString.bind(this);
     }
@@ -89,7 +89,9 @@ class Home extends React.Component {
     render() {
         const emptyWeekdays = [];
         for (var i = 1; i < this.state.month[0].getDay(); i++) {
-            emptyWeekdays.push(<div key={i} className="col-1-of-7"></div>);
+            emptyWeekdays.push(
+                <div key={i} className="col-1-of-7 diary__month-day"></div>
+            );
         }
 
         return (
@@ -107,9 +109,7 @@ class Home extends React.Component {
                 </PanelHeader>
                 <div className="diary">
                     <div className="diary__header d-flex">
-                        <div className="diary__header-month">
-                            {this.getMonthString(this.state.week[0])}
-                        </div>
+                        <div className="diary__header-month">Июль</div>
                         <div className="diary__header-year">2020</div>
                         <Button
                             className="ml-auto diary__header-btn"
@@ -124,50 +124,75 @@ class Home extends React.Component {
                     </div>
                     <div className="diary__block-wrapper">
                         <div className="diary__block">
-                            <div
-                                className={
-                                    "diary__week-wrapper" +
-                                    (this.state.showndatepicker
-                                        ? " diary__datepicker_shown"
-                                        : "")
-                                }
-                            >
-                                <div className="diary__week d-flex">
-                                    <Button className="diary__week-btn diary__change-week-btn" style={{left: 0}}>
+                            <div className="diary__month-wrapper">
+                                <div
+                                    className={
+                                        "diary__month" +
+                                        (this.state.showndatepicker
+                                            ? ""
+                                            : " diary__month_collapsed")
+                                    }
+                                >
+                                    <div className="d-flex diary__weekdays">
+                                        {[
+                                            { id: 1, name: "ПН" },
+                                            { id: 2, name: "ВТ" },
+                                            { id: 3, name: "СР" },
+                                            { id: 4, name: "ЧТ" },
+                                            { id: 5, name: "ПТ" },
+                                            { id: 6, name: "СБ" },
+                                            { id: 7, name: "ВС" }
+                                        ].map((day, key) => (
+                                            <div
+                                                key={key}
+                                                className={
+                                                    "diary__weekday text-center col-1-of-7" +
+                                                    (this.state.chosenDay.getDay() ==
+                                                    day.id
+                                                        ? " diary__weekday_active"
+                                                        : "")
+                                                }
+                                            >
+                                                {day.name}
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <Button
+                                        className="diary__change-week-btn"
+                                        style={{ left: 0 }}
+                                    >
                                         <Icon24BrowserBack />
                                     </Button>
-                                    {this.state.week.map((day, key) => (
-                                        <DiaryDayBtn
-                                            key={key}
-                                            active={
-                                                day.getTime() ==
-                                                this.state.chosenDay.getTime()
-                                            }
-                                            onClick={() => {
-                                                this.setState({
-                                                    chosenDay: day
-                                                });
-                                            }}
-                                            date={day}
-                                        />
-                                    ))}
-                                    <Button className="diary__week-btn diary__change-week-btn" style={{right: 0}}>
+                                    <Button
+                                        className="diary__change-week-btn"
+                                        style={{ right: 0 }}
+                                    >
                                         <Icon24BrowserForward />
                                     </Button>
-                                </div>
-                                <div className="diary__datepicker d-flex flex-wrap">
-                                    {emptyWeekdays}
-                                    {this.state.month.map((day, key) => (
-                                        <div
-                                            key={key}
-                                            className="col-1-of-7 text-center diary__month-day"
-                                        >
-                                            {day.getDate()}
-                                        </div>
-                                    ))}
+                                    <div className="diary__datepicker datepicker d-flex flex-wrap" style={{ '--chosen-week' : `calc(${this.state.chosenWeek - 1})`}}>
+                                        {emptyWeekdays}
+                                        {this.state.month.map((day, key) => (
+                                            <div
+                                                key={key}
+                                                className="col-1-of-7 text-center datepicker__day-wrapper"
+                                            >
+                                                <div
+                                                    className={
+                                                        "datepicker__day" +
+                                                        (day.getTime() ==
+                                                        this.state.chosenDay.getTime()
+                                                            ? " datepicker__day_active"
+                                                            : "")
+                                                    }
+                                                >
+                                                    {day.getDate()}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
-                            <div className="diary__lessons lessons">
+                            <div className={"diary__lessons lessons" + (this.state.showndatepicker ? " diary__lessons_showndatepicker" : "")}>
                                 <div className="diary__lessons-title">
                                     Уроки
                                 </div>
