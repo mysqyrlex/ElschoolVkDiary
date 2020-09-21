@@ -1,7 +1,13 @@
 :root {
     --primary: #045772;
-    --datepicker-height: 215px;
+    --datepicker-height: 240px;
     --anim-dura: 0.25s;
+    --mark1: #ffb6c1;
+    --mark2: #ffb6c1;
+    --mark3: #f0e68c;
+    --mark4: #87ceeb;
+    --mark5: #98fb98;
+    --markH: #d3d3d3;
 }
 
 /*                                                                  */
@@ -13,6 +19,9 @@
 /*                                                                  */
 .p-0 {
     padding: 0 !important;
+}
+.d-inline-block {
+    display: inline-block !important;
 }
 .d-flex {
     display: -ms-flexbox !important;
@@ -162,7 +171,7 @@
 
 .diary__weekdays {
     position: absolute;
-    top: 17px;
+    top: 12px;
     width: calc(100% * 7 / 9);
     left: calc(100% / 9);
     z-index: 11;
@@ -172,6 +181,7 @@
     color: #787878;
     z-index: 10;
     transition: color var(--anim-dura) ease;
+    padding: 5px 0;
 }
 .diary__month.diary__month_collapsed .diary__weekday_active {
     color: #cdcdcd;
@@ -181,35 +191,51 @@
     top: 35px;
     width: calc(100% * 7 / 9);
     left: calc(100% / 9);
-    height: calc(var(--datepicker-height) - 15px);
+    height: max-content;
     transition: top var(--anim-dura) ease;
 }
 .diary__month::before {
     content: "";
     position: absolute;
-    bottom: 53px;
+    bottom: 52px;
     left: calc(100% / 9);
     width: calc(100% * 7 / 9);
     height: 200px;
     background-color: #fff;
     z-index: 11;
     opacity: 1;
-    transition: bottom var(--anim-dura) ease, opacity var(--anim-dura) ease,
-        z-index 0s ease 0s;
+    transition: bottom var(--anim-dura) ease, opacity var(--anim-dura) ease, z-index 0s ease 0s;
 }
 .diary__month:not(.diary__month_collapsed)::before {
     bottom: 100vh;
     opacity: 0;
     z-index: -1;
-    transition: bottom var(--anim-dura) ease, opacity var(--anim-dura) ease,
-        z-index 0s ease var(--anim-dura);
+    transition: bottom var(--anim-dura) ease, opacity var(--anim-dura) ease, z-index 0s ease var(--anim-dura);
+}
+.diary__month::after {
+    content: "";
+    position: absolute;
+    top: 55px;
+    left: calc(100% / 9);
+    width: calc(100% * 7 / 9);
+    height: 200px;
+    background-color: #fff;
+    z-index: 11;
+    opacity: 1;
+    transition: top var(--anim-dura) ease, opacity var(--anim-dura) ease, z-index 0s ease 0s;
+}
+.diary__month:not(.diary__month_collapsed)::after {
+    top: 100vh;
+    opacity: 0;
+    z-index: -1;
+    transition: top var(--anim-dura) ease, opacity var(--anim-dura) ease, z-index 0s ease var(--anim-dura);
 }
 
 .diary__month.diary__month_collapsed .datepicker {
     top: calc(19px - var(--chosen-week) * 33.25px);
 }
 .datepicker__day-wrapper {
-    height: 30px;
+    height: calc(100px / 3);
 }
 .datepicker__day {
     font-size: 13px;
@@ -235,6 +261,10 @@
     z-index: -1;
     transition: height var(--anim-dura) ease, top var(--anim-dura) ease;
 }
+.datepicker__day:not(.datepicker__day_active)::before {
+    top: 0;
+    height: 0;
+}
 .datepicker__day_active {
     color: #fff;
 }
@@ -248,12 +278,44 @@
 }
 .diary__month:not(.diary__month_collapsed) .datepicker__day_previous-month {
     opacity: 0;
+    transition: opacity 0 ease;
+}
+
+.diary__month.diary__month_collapsed .datepicker__day_next-month {
+    opacity: 1;
     transition: opacity var(--anim-dura) ease;
+}
+.diary__month:not(.diary__month_collapsed) .datepicker__day_next-month {
+    opacity: 0;
+    transition: opacity 0 ease;
 }
 
 .diary__month:not(.diary__month_collapsed) .datepicker__day_active::before {
     top: 0;
     height: 100%;
+}
+
+.diary__month .diary__datepicker-month {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: #787878;
+    opacity: 1;
+    transition: opacity var(--anim-dura) ease;
+}
+.diary__datepicker-year {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    color: #787878;
+    opacity: 1;
+    transition: opacity var(--anim-dura) ease;
+}
+.diary__month.diary__month_collapsed .diary__datepicker-month,
+.diary__month.diary__month_collapsed .diary__datepicker-year {
+    bottom: -100vh;
+    opacity: 0;
 }
 /*                                                                  */
 /*                                                                  */
@@ -337,6 +399,10 @@
 .lesson__number {
     font-size: 40px;
     color: #787878;
+    margin: auto 0;
+    position: sticky;
+    top: 170px;
+    padding: 5px 0;
 }
 
 /*                                                                  */
@@ -352,22 +418,78 @@
     padding: 15px;
     border-radius: 10px;
     font-size: 14px;
+    width: calc(100vw - 115px);
 }
 
-/*                                                                  */
-/*                                                                  */
-/*                                                                  */
-/*            УДАЛИТЬ ПОТОМ !!!                                     */
-/*                                                                  */
-/*                                                                  */
-/*                                                                  */
-.xxx {
-    position: fixed;
-    height: 1px;
-    background-color: #f00;
-    width: 100vw;
-    left: 0;
-    top: 139px;
+.lesson__title {
+    font-weight: 600;
+}
+.lesson__mark-wrapper:not(:empty) {
+    font-size: 24px;
+    height: 65px;
+    width: 92px;
+    min-width: 92px;
+    background: linear-gradient(90deg, var(--mark1) 0%, var(--mark5) 100%);
+    margin: -15px -15px 0 0;
+    text-align: center;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    font-weight: 600;
+}
+.lesson__mark {
+    padding-top: 8px;
+}
+
+.lesson__number-room {
+    margin-top: 10px;
+    white-space: nowrap;
+}
+.lesson__kind {
+    margin: 10px 0 0 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #787878;
+}
+
+.lesson__videoconf {
+    margin-top: 15px;
+    color: #0687b1;
+    width: max-content;
+    /* padding: 3px 10px; */
+    /* border-radius: 5px; */
+    /* border: 1px solid #0687b1; */
+}
+
+.lesson__stages:not(:empty) {
+    margin-top: 10px;
+    white-space: break-spaces;
+    line-height: 1.5;
+}
+.lesson__stages:not(:empty)::before {
+    content: "Этапы урока:";
+    color: #787878;
     display: block;
-    z-index: 1000;
+    font-style: italic;
+}
+
+.lesson__homework:not(:empty) {
+    margin-top: 15px;
+    white-space: break-spaces;
+    line-height: 1.5;
+}
+.lesson__homework:not(:empty)::before {
+    content: "Домашнее задание:";
+    color: #787878;
+    display: block;
+    font-style: italic;
+}
+.lesson__stages:not(:empty) + .lesson__homework:not(:empty)::before {
+    border-top: 1px solid #a5a5a5;
+    padding-top: 7px;
+}
+
+.lesson__yaklass {
+    margin-top: 10px;
+    color: #0687b1;
 }
