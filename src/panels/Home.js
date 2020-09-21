@@ -66,11 +66,10 @@ class Home extends React.Component {
                     },
                     { id: 3, title: "Физкультура", start: "09:35", end: "10:15", number: 3, room: "физ. зал", kind: "Очный", videoconfTime: null, stages: null, homework: null, yaklass: false, mark: null },
                     { id: 4, title: "Физкультура", start: "10:20", end: "11:00", number: 4, room: "физ. зал", kind: "Очный", videoconfTime: null, stages: null, homework: null, yaklass: false, mark: "2" },
-                    { id: 5, title: "Физика", start: "11:05", end: "11:45", number: 5, room: "3", kind: "Очный", videoconfTime: null, stages: null, homework: null, yaklass: false, mark: null }
+                    { id: 5, title: "Физика", start: "11:05", end: "11:45", number: 5, room: "3", kind: "Очный", videoconfTime: null, stages: null, homework: null, yaklass: false, mark: 'Н' }
                 ]
             });
-        }, 0);
-        // }, 2000);
+        }, 2000);
     };
 
     getWeek(_day) {
@@ -363,6 +362,38 @@ class DiaryLesson extends React.Component {
         super(props);
     }
 
+    getMarkBlockColor(mark) {
+        var color = "";
+        if (mark.indexOf("/") > 0) {
+            color = "linear-gradient(90deg, ";
+            var mark1 = mark.substring(0, mark.indexOf("/"));
+            var mark2 = mark.substring(mark.indexOf("/") + 1);
+            color += this.getMarkColor(mark1) + "," + this.getMarkColor(mark2);
+            color += ")";
+        } else {
+            color = this.getMarkColor(mark);
+        }
+        return color;
+    }
+
+    getMarkColor(mark) {
+        mark = parseInt(mark);
+        switch (mark) {
+            case 1:
+                return "#ffb6c1";
+            case 2:
+                return "#ffb6c1";
+            case 3:
+                return "#f0e68c";
+            case 4:
+                return "#87ceeb";
+            case 5:
+                return "#98fb98";
+            default:
+                return "#d3d3d3";
+        }
+    }
+
     render() {
         const lesson = this.props.lesson;
         return (
@@ -377,7 +408,7 @@ class DiaryLesson extends React.Component {
                     <div className="d-flex">
                         <div className="lesson__title flex-grow-1">{lesson.title}</div>
                         {lesson.mark != null && (
-                            <div className="lesson__mark-wrapper">
+                            <div className="lesson__mark-wrapper" style={{ background: this.getMarkBlockColor(lesson.mark) }}>
                                 <div className="lesson__mark">{lesson.mark}</div>
                                 <div style={{ fontSize: 14, marginTop: 2 }}>Оценка</div>
                             </div>
