@@ -13,14 +13,15 @@ class Home extends React.Component {
 
         this.state = {
             showndatepicker: false,
-            chosenDay: new Date("2021-05-29"),
-            chosenWeek: 5,
-            month: this.getMonth(new Date("2021-05-29"))
+            chosenDay: new Date("2021-05-03"),
+            chosenWeek: 2,
+            month: this.getMonth(new Date("2021-05-03"))
         };
         this.getMonthString = this.getMonthString.bind(this);
     }
 
-    getWeek(day) {
+    getWeek(_day) {
+        var day = _day;
         var monday = day.setDate(day.getDate() - day.getDay() + 1);
         var week = [];
         for (var i = 0; i < 7; i++) {
@@ -33,7 +34,8 @@ class Home extends React.Component {
         return week;
     }
 
-    getMonth(day) {
+    getMonth(_day) {
+        var day = new Date(_day.getTime());
         var first = day.setDate(1);
         var last = new Date(day.setMonth(day.getMonth() + 1));
         last.setDate(last.getDate() - 1);
@@ -44,15 +46,18 @@ class Home extends React.Component {
         return month;
     }
 
-    getMonthString(monday) {
-        var n = 1 + monday.getMonth();
-        var month = this.getRuMonth(n);
-        var sundayMonth =
-            new Date(
-                new Date(monday).setDate(monday.getDate() + 6)
-            ).getMonth() + 1;
-        if (sundayMonth != n) {
-            month += " - " + this.getRuMonth(sundayMonth);
+    getMonthString(_day) {
+        var day = new Date(_day.getTime());
+        var month = "";
+        var monday = new Date(
+            day.setDate(
+                day.getDate() - (day.getDay() == 0 ? 7 : day.getDay()) + 1
+            )
+        );
+        month += this.getRuMonth(monday.getMonth() + 1);
+        var sunday = new Date(day.setDate(day.getDate() + 6));
+        if (monday.getMonth() != sunday.getMonth()) {
+            month += " - " + this.getRuMonth(sunday.getMonth() + 1);
         }
         return month;
     }
@@ -86,11 +91,39 @@ class Home extends React.Component {
         }
     };
 
+    choseDay = day => {
+        this.setState({
+            showndatepicker: false,
+            chosenDay: day,
+            month: this.getMonth(day),
+            chosenWeek: this.getWeekNumber(day)
+        });
+    };
+
+    getWeekNumber = _day => {
+        var day = new Date(_day.getTime());
+        var dayN = day.getDate();
+        var first = new Date(day.setDate(1));
+        var summ = (first.getDay() == 0 ? 7 : first.getDay()) + dayN - 2;
+        return (summ - (summ % 7)) / 7 + 1;
+    };
+
     render() {
         const emptyWeekdays = [];
         for (var i = 1; i < this.state.month[0].getDay(); i++) {
             emptyWeekdays.push(
-                <div key={i} className="col-1-of-7 diary__month-day"></div>
+                <div
+                    key={i}
+                    className="col-1-of-7 text-center datepicker__day-wrapper"
+                >
+                    <div className="datepicker__day datepicker__day_previous-month">
+                        {new Date(
+                            new Date(this.state.month[0].getTime()).setDate(
+                                1 - i
+                            )
+                        ).getDate()}
+                    </div>
+                </div>
             );
         }
 
@@ -109,8 +142,10 @@ class Home extends React.Component {
                 </PanelHeader>
                 <div className="diary">
                     <div className="diary__header d-flex">
-                        <div className="diary__header-month">Июль</div>
-                        <div className="diary__header-year">2020</div>
+                        <div className="diary__header-month">
+                            {this.getMonthString(this.state.chosenDay)}
+                        </div>
+                        <div className="diary__header-year">2021</div>
                         <Button
                             className="ml-auto diary__header-btn"
                             onClick={() => {
@@ -141,7 +176,7 @@ class Home extends React.Component {
                                             { id: 4, name: "ЧТ" },
                                             { id: 5, name: "ПТ" },
                                             { id: 6, name: "СБ" },
-                                            { id: 7, name: "ВС" }
+                                            { id: 0, name: "ВС" }
                                         ].map((day, key) => (
                                             <div
                                                 key={key}
@@ -169,7 +204,13 @@ class Home extends React.Component {
                                     >
                                         <Icon24BrowserForward />
                                     </Button>
-                                    <div className="diary__datepicker datepicker d-flex flex-wrap" style={{ '--chosen-week' : `calc(${this.state.chosenWeek - 1})`}}>
+                                    <div
+                                        className="diary__datepicker datepicker d-flex flex-wrap"
+                                        style={{
+                                            "--chosen-week": `calc(${this.state
+                                                .chosenWeek - 1})`
+                                        }}
+                                    >
                                         {emptyWeekdays}
                                         {this.state.month.map((day, key) => (
                                             <div
@@ -184,6 +225,9 @@ class Home extends React.Component {
                                                             ? " datepicker__day_active"
                                                             : "")
                                                     }
+                                                    onClick={() => {
+                                                        this.choseDay(day);
+                                                    }}
                                                 >
                                                     {day.getDate()}
                                                 </div>
@@ -192,7 +236,14 @@ class Home extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className={"diary__lessons lessons" + (this.state.showndatepicker ? " diary__lessons_showndatepicker" : "")}>
+                            <div
+                                className={
+                                    "diary__lessons lessons" +
+                                    (this.state.showndatepicker
+                                        ? " diary__lessons_showndatepicker"
+                                        : "")
+                                }
+                            >
                                 <div className="diary__lessons-title">
                                     Уроки
                                 </div>
