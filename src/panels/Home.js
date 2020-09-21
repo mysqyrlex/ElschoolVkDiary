@@ -46,7 +46,7 @@ class Home extends React.Component {
                         kind: "ДО-онлайн",
                         videoconfTime: "08:15",
                         stages: "1. Выполнить задание в онлайн-учебнике: ссылка\n2.Выполнить задание в онлайн-решебнике: ссылка",
-                        homework: "Выполнить задание 123\r 456",
+                        homework: "Выполнить задание 123\n456",
                         yaklass: true,
                         mark: null
                     },
@@ -266,7 +266,7 @@ class Home extends React.Component {
                                                 this.setState({ month: this.getMonth(_day) });
                                             } else {
                                                 var _day = new Date(this.state.chosenDay);
-                                                _day.setDate(_day.getDate() + (_day.getDay() == 0 ? 7 : 8 - _day.getDay()));
+                                                _day.setDate(_day.getDate() + (8 - _day.getDay()));
                                                 this.chooseDay(_day, true);
                                             }
                                         }}
@@ -410,7 +410,7 @@ class DiaryLesson extends React.Component {
                         {lesson.mark != null && (
                             <div className="lesson__mark-wrapper" style={{ background: this.getMarkBlockColor(lesson.mark) }}>
                                 <div className="lesson__mark">{lesson.mark}</div>
-                                <div style={{ fontSize: 14, marginTop: 2 }}>Оценка</div>
+                                <div>Оценка</div>
                             </div>
                         )}
                     </div>
@@ -428,7 +428,7 @@ class DiaryLesson extends React.Component {
                     )}
                     <div className="lesson__stages">{lesson.stages}</div>
                     <div className="lesson__homework">{lesson.homework}</div>
-                    {lesson.yaklass != null ? <div className="lesson__yaklass">Нужно пройти тест ЯКласс</div> : null}
+                    {lesson.yaklass ? <div className="lesson__yaklass">Нужно пройти тест ЯКласс</div> : null}
                 </div>
             </div>
         );

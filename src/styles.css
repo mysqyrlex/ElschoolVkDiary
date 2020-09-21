@@ -428,7 +428,6 @@
     font-weight: 600;
 }
 .lesson__mark-wrapper:not(:empty) {
-    font-size: 24px;
     height: 65px;
     width: 92px;
     min-width: 92px;
@@ -439,6 +438,7 @@
     font-weight: 600;
 }
 .lesson__mark {
+    font-size: 23px;
     padding-top: 8px;
 }
 
