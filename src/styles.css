@@ -91,6 +91,9 @@
 .Button[disabled] {
     opacity: 1 !important;
 }
+.Button.Tappable--active {
+    opacity: 1 !important;
+}
 .Spinner {
     color: var(--primary);
 }
@@ -130,6 +133,35 @@
     border-radius: 50%;
     overflow: hidden;
     margin-right: 10px;
+}
+.diary__header-btn-calendar {
+    animation: icon-btn-appear1 var(--anim-dura) ease 1;
+}
+.diary__header-btn-cancel {
+    padding-right: 14px;
+    animation: icon-btn-appear2 var(--anim-dura) ease 1;
+}
+@keyframes icon-btn-appear1 {
+    0% {
+        transform: scale(0);
+    }
+    60% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+@keyframes icon-btn-appear2 {
+    0% {
+        transform: scale(0);
+    }
+    60% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 /*                                                                  */
@@ -189,6 +221,35 @@
 .diary__month.diary__month_collapsed .diary__weekday_active {
     color: #cdcdcd;
 }
+.diary__month:not(.diary__month_collapsed) .diary__weekday {
+    animation: weekday-appear calc(2 * var(--anim-dura)) ease 1;
+}
+@keyframes weekday-appear {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.diary__month.diary__month_collapsed .diary__weekday {
+    animation: weekday-appear2 calc(2 * var(--anim-dura)) ease 1;
+}
+@keyframes weekday-appear2 {
+    0% {
+        opacity: 0;
+    }
+    33% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .datepicker {
     position: absolute;
     top: 35px;
@@ -203,7 +264,7 @@
 .diary__month::before {
     content: "";
     position: absolute;
-    bottom: 52px;
+    bottom: 53px;
     left: calc(100% / 9);
     width: calc(100% * 7 / 9);
     height: 200px;
@@ -240,7 +301,7 @@
 .diary__month.diary__month_collapsed .datepicker {
     top: calc(19px - var(--chosen-week) * 33.25px);
 }
-.datepicker_no-animation {
+.datepicker_no-animation, .datepicker_no-animation .datepicker__day::before {
     transition: none !important;
 }
 .datepicker__day {
@@ -260,7 +321,7 @@
     background-color: transparent;
     width: 100%;
     height: calc(100% + 16px);
-    top: -15px;
+    top: -16px;
     left: 0;
     border-radius: 8px;
     position: absolute;
@@ -277,6 +338,20 @@
 .datepicker__day_active::before {
     background-color: var(--primary);
 }
+.diary__month.diary__month_collapsed.diary__month_animate .datepicker__day:not(.datepicker__day_active) {
+    animation: day-appear calc(2 * var(--anim-dura)) ease 1;
+}
+@keyframes day-appear {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
 .diary__month.diary__month_collapsed .datepicker__day_previous-month {
     opacity: 1;
@@ -284,7 +359,7 @@
 }
 .diary__month:not(.diary__month_collapsed) .datepicker__day_previous-month {
     opacity: 0;
-    transition: opacity 0 ease;
+    transition: opacity 0s ease;
 }
 
 .diary__month.diary__month_collapsed .datepicker__day_next-month {
@@ -293,7 +368,7 @@
 }
 .diary__month:not(.diary__month_collapsed) .datepicker__day_next-month {
     opacity: 0;
-    transition: opacity 0 ease;
+    transition: opacity 0s ease;
 }
 
 .diary__month:not(.diary__month_collapsed) .datepicker__day_active::before {
@@ -305,10 +380,10 @@
     position: absolute;
     bottom: 10px;
     left: 50%;
-    transform: translate(-50%, 0);
     color: #787878;
     opacity: 1;
-    transition: opacity var(--anim-dura) ease;
+    transform: translate(-50%, 0) scale(1);
+    transition: opacity var(--anim-dura) ease, transform var(--anim-dura) ease .1s;
 }
 .diary__datepicker-year {
     position: absolute;
@@ -316,12 +391,18 @@
     right: 15px;
     color: #787878;
     opacity: 1;
-    transition: opacity var(--anim-dura) ease;
+    transform: scale(1);
+    transition: opacity var(--anim-dura) ease, transform var(--anim-dura) ease .1s;
 }
-.diary__month.diary__month_collapsed .diary__datepicker-month,
+.diary__month.diary__month_collapsed .diary__datepicker-month{
+    bottom: -100vh;
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0);
+}
 .diary__month.diary__month_collapsed .diary__datepicker-year {
     bottom: -100vh;
     opacity: 0;
+    transform: scale(0);
 }
 /*                                                                  */
 /*                                                                  */
@@ -336,8 +417,19 @@
 }
 .diary__lessons_showndatepicker {
     margin-top: calc(114px - 40px + var(--datepicker-height));
+    animation: lessons-margin var(--anim-dura) ease 1;
 }
-
+@keyframes lessons-margin {
+    0% {
+        margin-top: 114px;
+    }
+    25% {
+        margin-top: 114px;
+    }
+    100% {
+        margin-top: calc(114px - 40px + var(--datepicker-height));
+    }
+}
 .diary__lessons-title {
     font-size: 12px;
     color: #787878;
@@ -345,6 +437,15 @@
     position: relative;
     margin-left: 90px;
     padding: 12px 0;
+    animation: lessons-title-appear calc(2 * var(--anim-dura)) ease 1;
+}
+@keyframes lessons-title-appear {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 .diary__lessons-title::before {
     content: "";
@@ -354,6 +455,19 @@
     background-color: var(--primary);
     display: inline-block;
     left: -75px;
+}
+.lesson {
+    animation: lesson-appear var(--anim-dura) ease 1;
+}
+@keyframes lesson-appear {
+    0% {
+        opacity: 0;
+        margin-top: -30px;
+    }
+    100% {
+        opacity: 1;
+        margin-top: 0;
+    }
 }
 .lesson:last-child {
     margin-bottom: 50px;
@@ -454,9 +568,6 @@
 }
 .lesson__kind {
     margin: 10px 0 0 10px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     color: #787878;
 }
 

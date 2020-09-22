@@ -73,7 +73,7 @@ class Home extends React.Component {
                     ]
                 });
             }
-        }, 2000);
+        }, 500);
     };
 
     getWeek(_day) {
@@ -200,7 +200,7 @@ class Home extends React.Component {
                         <div className="diary__header-month">{this.getMonthString(this.state.chosenDay)}</div>
                         <div className="diary__header-year">{this.getYearString(this.state.chosenDay)}</div>
                         <Button
-                            className="ml-auto diary__header-btn"
+                            className={"ml-auto diary__header-btn" + (this.state.showndatepicker ? " diary__header-btn-cancel" : " diary__header-btn-calendar")}
                             onClick={() => {
                                 if (this.state.showndatepicker) {
                                     this.setState({
@@ -255,9 +255,13 @@ class Home extends React.Component {
                                                 _day.setMonth(_day.getMonth() - 1);
                                                 this.setState({ month: this.getMonth(_day) });
                                             } else {
+                                                this.setState({ animateDatepicker: false });
                                                 var _day = new Date(this.state.chosenDay);
                                                 _day.setDate(_day.getDate() - (_day.getDay() == 0 ? 7 : _day.getDay()));
                                                 this.chooseDay(_day);
+                                                setTimeout(() => {
+                                                    this.setState({ animateDatepicker: true });
+                                                }, 250);
                                             }
                                         }}
                                     >
@@ -273,9 +277,13 @@ class Home extends React.Component {
                                                 _day.setMonth(_day.getMonth() + 1);
                                                 this.setState({ month: this.getMonth(_day) });
                                             } else {
+                                                this.setState({ animateDatepicker: false });
                                                 var _day = new Date(this.state.chosenDay);
                                                 _day.setDate(_day.getDate() + (8 - _day.getDay()));
                                                 this.chooseDay(_day, true);
+                                                setTimeout(() => {
+                                                    this.setState({ animateDatepicker: true });
+                                                }, 250);
                                             }
                                         }}
                                     >
@@ -294,7 +302,15 @@ class Home extends React.Component {
                                                 <div
                                                     className={"datepicker__day" + (day.getTime() == this.state.chosenDay.getTime() ? " datepicker__day_active" : "")}
                                                     onClick={() => {
-                                                        this.chooseDay(day);
+                                                        if (day.getTime() != this.state.chosenDay.getTime()) {
+                                                            if (!this.state.showndatepicker) {
+                                                                this.setState({ animateDatepicker: false });
+                                                                setTimeout(() => {
+                                                                    this.setState({ animateDatepicker: true });
+                                                                }, 250);
+                                                            }
+                                                            this.chooseDay(day);
+                                                        }
                                                     }}
                                                 >
                                                     {day.getDate()}
