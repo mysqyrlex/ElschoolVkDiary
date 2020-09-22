@@ -197,6 +197,9 @@
     height: max-content;
     transition: top var(--anim-dura) ease;
 }
+.datepicker__day-wrapper {
+    height: calc(100px / 3);
+}
 .diary__month::before {
     content: "";
     position: absolute;
@@ -237,8 +240,8 @@
 .diary__month.diary__month_collapsed .datepicker {
     top: calc(19px - var(--chosen-week) * 33.25px);
 }
-.datepicker__day-wrapper {
-    height: calc(100px / 3);
+.datepicker_no-animation {
+    transition: none !important;
 }
 .datepicker__day {
     font-size: 13px;
@@ -351,6 +354,9 @@
     background-color: var(--primary);
     display: inline-block;
     left: -75px;
+}
+.lesson:last-child {
+    margin-bottom: 50px;
 }
 .lesson__timeline {
     width: 3px;
