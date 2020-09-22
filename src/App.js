@@ -1,24 +1,51 @@
 import React, { useState } from "react";
 // import bridge from "@vkontakte/vk-bridge";
-import View from "@vkontakte/vkui/dist/components/View/View";
-// import ScreenSpinner from "@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner";
+import { Root, View, Panel, PanelHeader, PanelHeaderBack, Avatar } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
-
-import Home from "./panels/Home";
+import Diary from "./panels/Diary";
 import "./styles.css";
 
-const App = () => {
-    const [activePanel, setActivePanel] = useState("home");
-
-    const go = e => {
-        setActivePanel(e.currentTarget.dataset.to);
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeView: "app",
+            activePanel: "home"
+        };
+    }
+    hideMenu = () => {
+        this.setState({ activeView: "app" });
     };
-
-    return (
-        <View activePanel={activePanel}>
-            <Home id="home" go={go} />
-        </View>
-    );
-};
-
+    render() {
+        return (
+            <Root activeView={this.state.activeView}>
+                <View id="app" activePanel={this.state.activePanel}>
+                    <Panel id="home">
+                        <PanelHeader
+                            left={
+                                <Avatar
+                                    size={36}
+                                    src="https://krot.info/uploads/posts/2019-10/1570183451_instagram-jelizabet-debiki-73.jpg"
+                                    onClick={() => {
+                                        this.setState({ activeView: "menu" });
+                                    }}
+                                />
+                            }
+                            separator={false}
+                        >
+                            Дневник
+                        </PanelHeader>
+                        <Diary />
+                    </Panel>
+                </View>
+                <View id="menu" activePanel="menu_panel">
+                    <Panel id="menu_panel">
+                        <PanelHeader left={<PanelHeaderBack onClick={this.hideMenu} />}>Настройки</PanelHeader>
+                        <div>123</div>
+                    </Panel>
+                </View>
+            </Root>
+        );
+    }
+}
 export default App;

@@ -559,7 +559,7 @@
 }
 .lesson__mark {
     font-size: 23px;
-    padding-top: 8px;
+    padding: 9px 0 2px;
 }
 
 .lesson__number-room {

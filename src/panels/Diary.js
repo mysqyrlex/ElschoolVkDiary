@@ -1,9 +1,5 @@
 import React from "react";
-import Panel from "@vkontakte/vkui/dist/components/Panel/Panel";
-import PanelHeader from "@vkontakte/vkui/dist/components/PanelHeader/PanelHeader";
-import Spinner from "@vkontakte/vkui/dist/components/Spinner/Spinner";
-import Avatar from "@vkontakte/vkui/dist/components/Avatar/Avatar";
-import Button from "@vkontakte/vkui/dist/components/Button/Button";
+import { Spinner, Button } from "@vkontakte/vkui";
 import Icon20CalendarOutline from "@vkontakte/icons/dist/20/calendar_outline";
 import Icon24BrowserBack from "@vkontakte/icons/dist/24/browser_back";
 import Icon24BrowserForward from "@vkontakte/icons/dist/24/browser_forward";
@@ -191,157 +187,152 @@ class Home extends React.Component {
         }
 
         return (
-            <Panel id={this.props.id}>
-                <PanelHeader left={<Avatar size={36} src="https://krot.info/uploads/posts/2019-10/1570183451_instagram-jelizabet-debiki-73.jpg" />} separator={false}>
-                    Дневник
-                </PanelHeader>
-                <div className="diary">
-                    <div className="diary__header d-flex">
-                        <div className="diary__header-month">{this.getMonthString(this.state.chosenDay)}</div>
-                        <div className="diary__header-year">{this.getYearString(this.state.chosenDay)}</div>
-                        <Button
-                            className={"ml-auto diary__header-btn" + (this.state.showndatepicker ? " diary__header-btn-cancel" : " diary__header-btn-calendar")}
-                            onClick={() => {
-                                if (this.state.showndatepicker) {
-                                    this.setState({
-                                        showndatepicker: !this.state.showndatepicker,
-                                        month: this.getMonth(this.state.chosenDay)
-                                    });
-                                } else {
-                                    this.setState({
-                                        showndatepicker: !this.state.showndatepicker
-                                    });
-                                }
-                            }}
-                        >
-                            {this.state.showndatepicker ? <Icon16Cancel /> : <Icon20CalendarOutline />}
-                        </Button>
-                    </div>
-                    <div className="diary__block-wrapper">
-                        <div className="diary__block">
-                            <div className="diary__month-wrapper">
-                                <div className={"diary__month" + (this.state.showndatepicker ? "" : " diary__month_collapsed")}>
-                                    <div className="d-flex diary__weekdays">
-                                        {[{ id: 1, name: "ПН" }, { id: 2, name: "ВТ" }, { id: 3, name: "СР" }, { id: 4, name: "ЧТ" }, { id: 5, name: "ПТ" }, { id: 6, name: "СБ" }, { id: 0, name: "ВС" }].map((day, key) => (
-                                            <div
-                                                key={key}
-                                                className={"diary__weekday text-center col-1-of-7" + (this.state.chosenDay.getDay() == day.id ? " diary__weekday_active" : "")}
-                                                onClick={
-                                                    this.state.showndatepicker
-                                                        ? null
-                                                        : () => {
-                                                              var _day = new Date(this.state.chosenDay);
-                                                              if (_day.getDay() != day.id) {
-                                                                  this.setState({ animateDatepicker: false });
-                                                                  this.chooseDay(new Date(_day.setDate(_day.getDate() + (day.id == 0 ? 7 : day.id) - (_day.getDay() == 0 ? 7 : _day.getDay()))));
-                                                              }
-                                                              setTimeout(() => {
-                                                                  this.setState({ animateDatepicker: true });
-                                                              }, 250);
+            <div className="diary">
+                <div className="diary__header d-flex">
+                    <div className="diary__header-month">{this.getMonthString(this.state.chosenDay)}</div>
+                    <div className="diary__header-year">{this.getYearString(this.state.chosenDay)}</div>
+                    <Button
+                        className={"ml-auto diary__header-btn" + (this.state.showndatepicker ? " diary__header-btn-cancel" : " diary__header-btn-calendar")}
+                        onClick={() => {
+                            if (this.state.showndatepicker) {
+                                this.setState({
+                                    showndatepicker: !this.state.showndatepicker,
+                                    month: this.getMonth(this.state.chosenDay)
+                                });
+                            } else {
+                                this.setState({
+                                    showndatepicker: !this.state.showndatepicker
+                                });
+                            }
+                        }}
+                    >
+                        {this.state.showndatepicker ? <Icon16Cancel /> : <Icon20CalendarOutline />}
+                    </Button>
+                </div>
+                <div className="diary__block-wrapper">
+                    <div className="diary__block">
+                        <div className="diary__month-wrapper">
+                            <div className={"diary__month" + (this.state.showndatepicker ? "" : " diary__month_collapsed")}>
+                                <div className="d-flex diary__weekdays">
+                                    {[{ id: 1, name: "ПН" }, { id: 2, name: "ВТ" }, { id: 3, name: "СР" }, { id: 4, name: "ЧТ" }, { id: 5, name: "ПТ" }, { id: 6, name: "СБ" }, { id: 0, name: "ВС" }].map((day, key) => (
+                                        <div
+                                            key={key}
+                                            className={"diary__weekday text-center col-1-of-7" + (this.state.chosenDay.getDay() == day.id ? " diary__weekday_active" : "")}
+                                            onClick={
+                                                this.state.showndatepicker
+                                                    ? null
+                                                    : () => {
+                                                          var _day = new Date(this.state.chosenDay);
+                                                          if (_day.getDay() != day.id) {
+                                                              this.setState({ animateDatepicker: false });
+                                                              this.chooseDay(new Date(_day.setDate(_day.getDate() + (day.id == 0 ? 7 : day.id) - (_day.getDay() == 0 ? 7 : _day.getDay()))));
                                                           }
-                                                }
-                                            >
-                                                {day.name}
-                                            </div>
-                                        ))}
-                                    </div>
-                                    {/*     КНОПКА НАЛЕВО    */}
-                                    <Button
-                                        className="diary__change-week-btn"
-                                        style={{ left: 0 }}
-                                        onClick={() => {
-                                            if (this.state.showndatepicker) {
-                                                var _day = new Date(this.state.month[0]);
-                                                _day.setMonth(_day.getMonth() - 1);
-                                                this.setState({ month: this.getMonth(_day) });
-                                            } else {
-                                                this.setState({ animateDatepicker: false });
-                                                var _day = new Date(this.state.chosenDay);
-                                                _day.setDate(_day.getDate() - (_day.getDay() == 0 ? 7 : _day.getDay()));
-                                                this.chooseDay(_day);
-                                                setTimeout(() => {
-                                                    this.setState({ animateDatepicker: true });
-                                                }, 250);
+                                                          setTimeout(() => {
+                                                              this.setState({ animateDatepicker: true });
+                                                          }, 250);
+                                                      }
                                             }
-                                        }}
-                                    >
-                                        <Icon24BrowserBack />
-                                    </Button>
-                                    {/*     КНОПКА НАПРАВО    */}
-                                    <Button
-                                        className="diary__change-week-btn"
-                                        style={{ right: 0 }}
-                                        onClick={() => {
-                                            if (this.state.showndatepicker) {
-                                                var _day = new Date(this.state.month[0]);
-                                                _day.setMonth(_day.getMonth() + 1);
-                                                this.setState({ month: this.getMonth(_day) });
-                                            } else {
-                                                this.setState({ animateDatepicker: false });
-                                                var _day = new Date(this.state.chosenDay);
-                                                _day.setDate(_day.getDate() + (8 - _day.getDay()));
-                                                this.chooseDay(_day, true);
-                                                setTimeout(() => {
-                                                    this.setState({ animateDatepicker: true });
-                                                }, 250);
-                                            }
-                                        }}
-                                    >
-                                        <Icon24BrowserForward />
-                                    </Button>
-
-                                    <div
-                                        className={"diary__datepicker datepicker d-flex flex-wrap" + (this.state.animateDatepicker ? "" : " datepicker_no-animation")}
-                                        style={{
-                                            "--chosen-week": `calc(${this.state.chosenWeek - 1})`
-                                        }}
-                                    >
-                                        {emptyStartWeekdays}
-                                        {this.state.month.map((day, key) => (
-                                            <div key={key} className="col-1-of-7 text-center datepicker__day-wrapper">
-                                                <div
-                                                    className={"datepicker__day" + (day.getTime() == this.state.chosenDay.getTime() ? " datepicker__day_active" : "")}
-                                                    onClick={() => {
-                                                        if (day.getTime() != this.state.chosenDay.getTime()) {
-                                                            if (!this.state.showndatepicker) {
-                                                                this.setState({ animateDatepicker: false });
-                                                                setTimeout(() => {
-                                                                    this.setState({ animateDatepicker: true });
-                                                                }, 250);
-                                                            }
-                                                            this.chooseDay(day);
-                                                        }
-                                                    }}
-                                                >
-                                                    {day.getDate()}
-                                                </div>
-                                            </div>
-                                        ))}
-                                        {emptyEndWeekdays}
-                                    </div>
-                                    <div className="diary__datepicker-month">{this.getRuMonth(this.state.month[0].getMonth() + 1)}</div>
-                                    <div className="diary__datepicker-year">{this.state.month[0].getFullYear()}</div>
+                                        >
+                                            {day.name}
+                                        </div>
+                                    ))}
                                 </div>
+                                {/*     КНОПКА НАЛЕВО    */}
+                                <Button
+                                    className="diary__change-week-btn"
+                                    style={{ left: 0 }}
+                                    onClick={() => {
+                                        if (this.state.showndatepicker) {
+                                            var _day = new Date(this.state.month[0]);
+                                            _day.setMonth(_day.getMonth() - 1);
+                                            this.setState({ month: this.getMonth(_day) });
+                                        } else {
+                                            this.setState({ animateDatepicker: false });
+                                            var _day = new Date(this.state.chosenDay);
+                                            _day.setDate(_day.getDate() - (_day.getDay() == 0 ? 7 : _day.getDay()));
+                                            this.chooseDay(_day);
+                                            setTimeout(() => {
+                                                this.setState({ animateDatepicker: true });
+                                            }, 250);
+                                        }
+                                    }}
+                                >
+                                    <Icon24BrowserBack />
+                                </Button>
+                                {/*     КНОПКА НАПРАВО    */}
+                                <Button
+                                    className="diary__change-week-btn"
+                                    style={{ right: 0 }}
+                                    onClick={() => {
+                                        if (this.state.showndatepicker) {
+                                            var _day = new Date(this.state.month[0]);
+                                            _day.setMonth(_day.getMonth() + 1);
+                                            this.setState({ month: this.getMonth(_day) });
+                                        } else {
+                                            this.setState({ animateDatepicker: false });
+                                            var _day = new Date(this.state.chosenDay);
+                                            _day.setDate(_day.getDate() + (8 - (_day.getDay() == 0 ? 7 : _day.getDay())));
+                                            this.chooseDay(_day, true);
+                                            setTimeout(() => {
+                                                this.setState({ animateDatepicker: true });
+                                            }, 250);
+                                        }
+                                    }}
+                                >
+                                    <Icon24BrowserForward />
+                                </Button>
+
+                                <div
+                                    className={"diary__datepicker datepicker d-flex flex-wrap" + (this.state.animateDatepicker ? "" : " datepicker_no-animation")}
+                                    style={{
+                                        "--chosen-week": `calc(${this.state.chosenWeek - 1})`
+                                    }}
+                                >
+                                    {emptyStartWeekdays}
+                                    {this.state.month.map((day, key) => (
+                                        <div key={key} className="col-1-of-7 text-center datepicker__day-wrapper">
+                                            <div
+                                                className={"datepicker__day" + (day.getTime() == this.state.chosenDay.getTime() ? " datepicker__day_active" : "")}
+                                                onClick={() => {
+                                                    if (day.getTime() != this.state.chosenDay.getTime()) {
+                                                        if (!this.state.showndatepicker) {
+                                                            this.setState({ animateDatepicker: false });
+                                                            setTimeout(() => {
+                                                                this.setState({ animateDatepicker: true });
+                                                            }, 250);
+                                                        }
+                                                        this.chooseDay(day);
+                                                    }
+                                                }}
+                                            >
+                                                {day.getDate()}
+                                            </div>
+                                        </div>
+                                    ))}
+                                    {emptyEndWeekdays}
+                                </div>
+                                <div className="diary__datepicker-month">{this.getRuMonth(this.state.month[0].getMonth() + 1)}</div>
+                                <div className="diary__datepicker-year">{this.state.month[0].getFullYear()}</div>
                             </div>
-                            {/*                                                                     */}
-                            {/*                                                                     */}
-                            {/*                               УРОКИ                                 */}
-                            {/*                                                                     */}
-                            {/*                                                                     */}
-                            <div className={"diary__lessons lessons" + (this.state.showndatepicker ? " diary__lessons_showndatepicker" : "")}>
-                                {!this.state.lessonsLoading && this.state.lessons.length > 0 && <div className="diary__lessons-title">Уроки</div>}
-                                {!this.state.lessonsLoading && this.state.lessons.map(lesson => <DiaryLesson key={lesson.id} lesson={lesson} />)}
-                                {!this.state.lessonsLoading && this.state.lessons.length == 0 && (
-                                    <div class="text-center" style={{ marginTop: "50vh" }}>
-                                        Уроков нет!
-                                    </div>
-                                )}
-                                {this.state.lessonsLoading && <Spinner size="large" style={{ marginTop: "50%" }} />}
-                            </div>
+                        </div>
+                        {/*                                                                     */}
+                        {/*                                                                     */}
+                        {/*                               УРОКИ                                 */}
+                        {/*                                                                     */}
+                        {/*                                                                     */}
+                        <div className={"diary__lessons lessons" + (this.state.showndatepicker ? " diary__lessons_showndatepicker" : "")}>
+                            {!this.state.lessonsLoading && this.state.lessons.length > 0 && <div className="diary__lessons-title">Уроки</div>}
+                            {!this.state.lessonsLoading && this.state.lessons.map(lesson => <DiaryLesson key={lesson.id} lesson={lesson} />)}
+                            {!this.state.lessonsLoading && this.state.lessons.length == 0 && (
+                                <div class="text-center" style={{ marginTop: "50vh" }}>
+                                    Уроков нет!
+                                </div>
+                            )}
+                            {this.state.lessonsLoading && <Spinner size="large" style={{ marginTop: "50%" }} />}
                         </div>
                     </div>
                 </div>
-            </Panel>
+            </div>
         );
     }
 }
