@@ -4,7 +4,7 @@ import Icon20CalendarOutline from "@vkontakte/icons/dist/20/calendar_outline";
 import Icon24BrowserBack from "@vkontakte/icons/dist/24/browser_back";
 import Icon24BrowserForward from "@vkontakte/icons/dist/24/browser_forward";
 import Icon16Cancel from "@vkontakte/icons/dist/16/cancel";
-import Icon24Videocam from "@vkontakte/icons/dist/24/videocam";
+import DiaryLesson from "./Lesson";
 
 class Home extends React.Component {
     constructor(props) {
@@ -44,7 +44,7 @@ class Home extends React.Component {
                             room: "204",
                             kind: "ДО-онлайн",
                             videoconfTime: "08:15",
-                            stages: "1. Выполнить задание в онлайн-учебнике: ссылка\n2.Выполнить задание в онлайн-решебнике: ссылка",
+                            stages: 'Tекст"materials_json_format":[{"desc":"задание1","link":"ссылка"},{"desc":"задание2","link":"ссылка2"}]',
                             homework: "Выполнить задание 123\n456",
                             yaklass: true,
                             mark: null
@@ -58,7 +58,7 @@ class Home extends React.Component {
                             room: "204",
                             kind: "ДО-электронный кейс",
                             videoconfTime: "08:15",
-                            stages: null,
+                            stages: '"materials_json_format":[{"desc":"задание1","link":"https://youtu.be/kFz9afj8lu0"}]',
                             homework: "123",
                             yaklass: false,
                             mark: "4/5"
@@ -368,84 +368,6 @@ class DiaryDayBtn extends React.Component {
                 <div className="diary-day-btn__weekday">{this.getRuWeekday(this.props.date.getDay())}</div>
                 <div className="diary-day-btn__date">{this.props.date.getDate()}</div>
             </Button>
-        );
-    }
-}
-
-class DiaryLesson extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    getMarkBlockColor(mark) {
-        var color = "";
-        if (mark.indexOf("/") > 0) {
-            color = "linear-gradient(90deg, ";
-            var mark1 = mark.substring(0, mark.indexOf("/"));
-            var mark2 = mark.substring(mark.indexOf("/") + 1);
-            color += this.getMarkColor(mark1) + "," + this.getMarkColor(mark2);
-            color += ")";
-        } else {
-            color = this.getMarkColor(mark);
-        }
-        return color;
-    }
-
-    getMarkColor(mark) {
-        mark = parseInt(mark);
-        switch (mark) {
-            case 1:
-                return "#ffb6c1";
-            case 2:
-                return "#ffb6c1";
-            case 3:
-                return "#f0e68c";
-            case 4:
-                return "#87ceeb";
-            case 5:
-                return "#98fb98";
-            default:
-                return "#d3d3d3";
-        }
-    }
-
-    render() {
-        const lesson = this.props.lesson;
-        return (
-            <div className="lesson d-flex">
-                <div className="lesson__timeline"></div>
-                <div className="lesson__times d-flex flex-column">
-                    <div className="lesson__start">{lesson.start}</div>
-                    <div className="lesson__number">{lesson.number}</div>
-                    <div className="lesson__end">{lesson.end}</div>
-                </div>
-                <div className="lesson__card flex-grow-1">
-                    <div className="d-flex">
-                        <div className="lesson__title flex-grow-1">{lesson.title}</div>
-                        {lesson.mark != null && (
-                            <div className="lesson__mark-wrapper" style={{ background: this.getMarkBlockColor(lesson.mark) }}>
-                                <div className="lesson__mark">{lesson.mark}</div>
-                                <div>Оценка</div>
-                            </div>
-                        )}
-                    </div>
-                    <div className="d-flex">
-                        <div className="lesson__number-room flex-grow-1">
-                            {lesson.number} урок, каб. {lesson.room}
-                        </div>
-                        <div className="lesson__kind">{lesson.kind}</div>
-                    </div>
-                    {lesson.videoconfTime != null && (
-                        <div className="lesson__videoconf d-flex">
-                            <Icon24Videocam />
-                            <div style={{ margin: "4px 0 0 5px" }}>Видеоурок в {lesson.videoconfTime}</div>
-                        </div>
-                    )}
-                    <div className="lesson__stages">{lesson.stages}</div>
-                    <div className="lesson__homework">{lesson.homework}</div>
-                    {lesson.yaklass ? <div className="lesson__yaklass">Нужно пройти тест ЯКласс</div> : null}
-                </div>
-            </div>
         );
     }
 }

@@ -584,12 +584,17 @@
     margin-top: 10px;
     white-space: break-spaces;
     line-height: 1.5;
+    counter-reset: section;
 }
 .lesson__stages:not(:empty)::before {
     content: "Этапы урока:";
     color: #787878;
     display: block;
     font-style: italic;
+}
+.lesson__stages > div::before {
+    content: counter(section) '. ';
+    counter-increment: section;
 }
 
 .lesson__homework:not(:empty) {

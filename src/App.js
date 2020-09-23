@@ -14,7 +14,7 @@ class App extends React.Component {
         };
     }
     hideMenu = () => {
-        this.setState({ activeView: "app" });
+        this.setState({ activePanel: "home" });
     };
     render() {
         return (
@@ -27,7 +27,7 @@ class App extends React.Component {
                                     size={36}
                                     src="https://krot.info/uploads/posts/2019-10/1570183451_instagram-jelizabet-debiki-73.jpg"
                                     onClick={() => {
-                                        this.setState({ activeView: "menu" });
+                                        this.setState({ activePanel: "menu" });
                                     }}
                                 />
                             }
@@ -37,9 +37,7 @@ class App extends React.Component {
                         </PanelHeader>
                         <Diary />
                     </Panel>
-                </View>
-                <View id="menu" activePanel="menu_panel">
-                    <Panel id="menu_panel">
+                    <Panel id="menu">
                         <PanelHeader left={<PanelHeaderBack onClick={this.hideMenu} />}>Настройки</PanelHeader>
                         <div>123</div>
                     </Panel>
